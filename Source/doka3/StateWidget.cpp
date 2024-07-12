@@ -1,6 +1,6 @@
+#include "StateWidget.h"
 #include "doka3Character.h"
 
-#include "StateWidget.h"
 
 UStateWidget::UStateWidget(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {

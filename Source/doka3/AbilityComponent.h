@@ -7,22 +7,37 @@
 #include "AbilityComponent.generated.h"
 
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(Abstract, Blueprintable, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class DOKA3_API UAbilityComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
+public:
 	// Sets default values for this component's properties
-	UAbilityComponent();
+	UAbilityComponent(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-		
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityAttributes")
+	float AbilityDamage = 0.0f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityAttributes")
+	float AbilityCastRange = 0.0f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityAttributes")
+	float AbilityRange = 0.0f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityAttributes")
+	float AbilityManaCost = 0.0f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cooldown")
+	float Cooldown = 0.0f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cooldown")
+	bool bIsReady = true;
+
+	UFUNCTION(BlueprintCallable, Category = "ActivateAbility")
+	virtual void ActivateAbility(ACharacter* OwnCharacter) PURE_VIRTUAL(UAbilityComponent::ActivateAbility, );
+
 };
