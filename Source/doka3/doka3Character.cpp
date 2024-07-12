@@ -122,9 +122,6 @@ void Adoka3Character::Tick(float DeltaSeconds)
 	if (AttackEnemy) {
 		AttackTarget(AttackEnemy);
 	}
-	else {
-
-	}
 }
 
 void Adoka3Character::AttackTarget(ACharacter* Target)
@@ -193,6 +190,7 @@ void Adoka3Character::MeleeAttack()
 
 void Adoka3Character::OnAnimAttackEnd(bool AttackSuccess = true)
 {
+
 	Adoka3Character* DamageTarget = Cast<Adoka3Character>(AttackEnemy);
 	OnAttackEnd.Broadcast();
 	bIsAttacking = false;
@@ -202,10 +200,12 @@ void Adoka3Character::OnAnimAttackEnd(bool AttackSuccess = true)
 		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("AttackSuccess"));
 		DealDamage(DamageTarget);
 	}
+
 }
 
 void Adoka3Character::StopAttack()
 {
+
 	StopAnimMontage(AttackAnimMontage);
 	AttackEnemy = nullptr;
 	OnAnimAttackEnd(false);
@@ -222,6 +222,8 @@ void Adoka3Character::ChangeHealth(float Delta)
 // Функция для применения урона
 void Adoka3Character::ApplyDamage(float Damage, const class UDamageType* DamageType, class AController* InstigatedBy, Adoka3Character* DamageCauser)
 {
+	if (!this) return;
+
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, TEXT("ApplyDamage"));
 	this->ChangeHealth(-Damage);
 	// Проверка на смерть
@@ -229,6 +231,7 @@ void Adoka3Character::ApplyDamage(float Damage, const class UDamageType* DamageT
 	{
 		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("DEATH"));
 		// Логика смерти или уничтожения актора
+		if (!DamageCauser) return;
 		DamageCauser->StopAttack();
 		this->Destroy();
 	}

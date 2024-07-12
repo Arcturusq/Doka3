@@ -67,7 +67,6 @@ void Adoka3PlayerController::SetNewMoveDestination(const FVector DestLocation)
 				MyCharacter->AttackEnemy = MyCharacter->TargetedEnemy;
 			}
 			else {
-				MyCharacter->AttackEnemy = nullptr;
 				if (MyCharacter->bIsAttacking) {
 					MyCharacter->StopAttack();
 				}
