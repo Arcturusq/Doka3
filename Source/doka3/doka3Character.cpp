@@ -13,6 +13,8 @@
 #include "Materials/Material.h"
 #include "StateWidget.h"
 #include "Engine/World.h"
+#include "AbilityComponent.h"
+
 
 Adoka3Character::Adoka3Character()
 {
@@ -209,6 +211,22 @@ void Adoka3Character::StopAttack()
 	StopAnimMontage(AttackAnimMontage);
 	AttackEnemy = nullptr;
 	OnAnimAttackEnd(false);
+}
+
+void Adoka3Character::AddAbility(UAbilityComponent* NewAbility)
+{
+	if (NewAbility)
+	{
+		Abilities.Add(NewAbility);
+	}
+}
+
+void Adoka3Character::ActivateAbility(int32 AbilityIndex)
+{
+	if (Abilities.IsValidIndex(AbilityIndex) && Abilities[AbilityIndex])
+	{
+		Abilities[AbilityIndex]->ActivateAbility(this);
+	}
 }
 
 void Adoka3Character::ChangeHealth(float Delta)
