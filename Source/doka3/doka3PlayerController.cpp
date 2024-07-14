@@ -9,6 +9,7 @@
 Adoka3PlayerController::Adoka3PlayerController()
 {
 	bShowMouseCursor = true;
+
 }
 
 void Adoka3PlayerController::PlayerTick(float DeltaTime)
@@ -21,7 +22,20 @@ void Adoka3PlayerController::PlayerTick(float DeltaTime)
 		MoveToMouseCursor();
 	}
 }
+void Adoka3PlayerController::BeginPlay()
+{
+	Super::BeginPlay();
 
+	MyCharacter = Cast<Adoka3Character>(GetPawn());
+	if (MyCharacter)
+	{
+		// Успешное приведение типа
+	}
+	else
+	{
+		// Обработка ошибки приведения типа
+	}
+}
 void Adoka3PlayerController::SetupInputComponent()
 {
 	// set up gameplay key bindings
@@ -67,7 +81,6 @@ void Adoka3PlayerController::SetNewMoveDestination(const FVector DestLocation)
 
 		//}
 		// Получаем персонажа и вызываем метод атаки
-		Adoka3Character* MyCharacter = Cast<Adoka3Character>(GetPawn());
 		if (MyCharacter) {
 			if (MyCharacter->TargetedEnemy) {
 				//MyCharacter->AttackTarget(MyCharacter->TargetedEnemy);
@@ -97,24 +110,45 @@ void Adoka3PlayerController::OnSetDestinationReleased()
 
 void Adoka3PlayerController::Use1Spell1()
 {
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("q"));
+	if (MyCharacter) {
+		MyCharacter->ActivateAbility(0);
+	}
 }
 
 void Adoka3PlayerController::Use2Spell1()
 {
+	if (MyCharacter) {
+		MyCharacter->ActivateAbility(1);
+	}
 }
 
 void Adoka3PlayerController::Use3Spell1()
 {
+	if (MyCharacter) {
+		MyCharacter->ActivateAbility(2);
+	}
 }
 
 void Adoka3PlayerController::Use4Spell1()
 {
+	if (MyCharacter) {
+		MyCharacter->ActivateAbility(3);
+	}
 }
 
 void Adoka3PlayerController::Use5Spell1()
 {
+	if (MyCharacter) {
+		MyCharacter->ActivateAbility(4);
+	}
 }
 
 void Adoka3PlayerController::Use6Spell1()
 {
+	if (MyCharacter) {
+		MyCharacter->ActivateAbility(5);
+	}
 }
+
+

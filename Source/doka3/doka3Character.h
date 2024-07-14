@@ -88,7 +88,7 @@ public:
 	FOnHealthChanged OnHealthChanged;
 
 	UFUNCTION(BlueprintCallable, Category = "Ability")
-	void AddAbility(UAbilityComponent* NewAbility);
+	void AddAbility(UAbilityComponent* NewAbility, int32 Index);
 
 	UFUNCTION(BlueprintCallable, Category = "Ability")
 	void ActivateAbility(int32 AbilityIndex);
@@ -109,6 +109,9 @@ public:
 
 	UStateWidget* CharacterWidget;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability")
+	TArray<UAbilityComponent*> Abilities; // Массив способностей
+
 	/** Returns TopDownCameraComponent subobject **/
 	FORCEINLINE class UCameraComponent* GetTopDownCameraComponent() const { return TopDownCameraComponent; }
 	/** Returns CameraBoom subobject **/
@@ -120,9 +123,6 @@ protected:
 	UWidgetComponent* CharacterWidgetComponent;
 
 	virtual void BeginPlay() override;
-
-	UPROPERTY()
-	TArray<UAbilityComponent*> Abilities;
 
 private:
 	/** Top down camera */

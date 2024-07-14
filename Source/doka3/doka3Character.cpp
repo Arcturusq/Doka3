@@ -83,8 +83,13 @@ Adoka3Character::Adoka3Character()
 		AttackAnimMontage = AnimMontageObject.Object;
 		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Purple, TEXT("Succeeded"));
 	}
+
+	Abilities.SetNum(6);
+	for (int i = 0; i <= 5; i++) {
+		Abilities[i] = nullptr;
+	}
 	UHookAbilityComponent* HookAbility = CreateDefaultSubobject<UHookAbilityComponent>(TEXT("HookAbility"));
-	Abilities.Add(HookAbility);
+	AddAbility(HookAbility, 0); // Добавление способности в массив
 }
 
 void Adoka3Character::BeginPlay()
@@ -216,18 +221,20 @@ void Adoka3Character::StopAttack()
 	OnAnimAttackEnd(false);
 }
 
-void Adoka3Character::AddAbility(UAbilityComponent* NewAbility)
+void Adoka3Character::AddAbility(UAbilityComponent* NewAbility, int32 Index)
 {
-	if (NewAbility)
+	if (NewAbility && Index >= 0 && Index < Abilities.Num())
 	{
-		Abilities.Add(NewAbility);
+		Abilities[Index] = NewAbility;
 	}
 }
 
 void Adoka3Character::ActivateAbility(int32 AbilityIndex)
 {
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("w"));
 	if (Abilities.IsValidIndex(AbilityIndex) && Abilities[AbilityIndex])
 	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("e"));
 		Abilities[AbilityIndex]->ActivateAbility(this);
 	}
 }

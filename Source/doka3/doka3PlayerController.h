@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+class Adoka3Character;
 #include "doka3PlayerController.generated.h"
 
 UCLASS()
@@ -34,12 +35,16 @@ protected:
 	void OnSetDestinationPressed();
 	void OnSetDestinationReleased();
 
+	Adoka3Character* MyCharacter;
+
 	void Use1Spell1();
 	void Use2Spell1();
 	void Use3Spell1();
 	void Use4Spell1();
 	void Use5Spell1();
 	void Use6Spell1();
+protected:
+	virtual void BeginPlay() override;
 };
 
 
