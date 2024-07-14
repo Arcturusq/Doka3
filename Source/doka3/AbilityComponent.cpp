@@ -26,3 +26,15 @@ void UAbilityComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 
 	// ...
 }
+
+void UAbilityComponent::ActivateAbility(ACharacter* OwnCharacter)
+{
+
+	GetWorld()->GetTimerManager().SetTimer(CooldownTimerHandle, this, &UAbilityComponent::CooldownExpired, Cooldown, false);
+}
+
+void UAbilityComponent::CooldownExpired()
+{
+	bIsReady = true;
+	UE_LOG(LogTemp, Warning, TEXT("Ability is ready again!"));
+}

@@ -24,6 +24,9 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	// Объект для управления таймером восстановления
+	FTimerHandle CooldownTimerHandle;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityAttributes")
 	float AbilityDamage = 0.0f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityAttributes")
@@ -38,6 +41,10 @@ public:
 	bool bIsReady = true;
 
 	UFUNCTION(BlueprintCallable, Category = "ActivateAbility")
-	virtual void ActivateAbility(ACharacter* OwnCharacter) PURE_VIRTUAL(UAbilityComponent::ActivateAbility, );
+	virtual void ActivateAbility(ACharacter* OwnCharacter);
+
+	// Функция для обработки таймера восстановления
+	UFUNCTION(BlueprintCallable, Category = "CooldownAbility")
+	virtual void CooldownExpired();
 
 };

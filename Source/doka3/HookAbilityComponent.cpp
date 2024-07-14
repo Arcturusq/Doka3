@@ -15,7 +15,6 @@ UHookAbilityComponent::UHookAbilityComponent(const FObjectInitializer& ObjectIni
 
 void UHookAbilityComponent::ActivateAbility(ACharacter* OwnCharacter)
 {
-	if (bIsReady) {
+	Super::CooldownExpired();
 
-	}
 }
