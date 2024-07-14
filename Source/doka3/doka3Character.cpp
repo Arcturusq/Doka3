@@ -14,6 +14,7 @@
 #include "StateWidget.h"
 #include "Engine/World.h"
 #include "AbilityComponent.h"
+#include "HookAbilityComponent.h"
 
 
 Adoka3Character::Adoka3Character()
@@ -82,6 +83,9 @@ Adoka3Character::Adoka3Character()
 		AttackAnimMontage = AnimMontageObject.Object;
 		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Purple, TEXT("Succeeded"));
 	}
+	UHookAbilityComponent* HookAbility = CreateDefaultSubobject<UHookAbilityComponent>(TEXT("HookAbility"));
+
+	Abilities.Add(HookAbility);
 }
 
 void Adoka3Character::BeginPlay()
