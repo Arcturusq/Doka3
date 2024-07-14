@@ -84,7 +84,6 @@ Adoka3Character::Adoka3Character()
 		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Purple, TEXT("Succeeded"));
 	}
 	UHookAbilityComponent* HookAbility = CreateDefaultSubobject<UHookAbilityComponent>(TEXT("HookAbility"));
-
 	Abilities.Add(HookAbility);
 }
 

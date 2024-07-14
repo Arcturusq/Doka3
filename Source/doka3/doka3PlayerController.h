@@ -33,6 +33,13 @@ protected:
 	/** Input handlers for SetDestination action. */
 	void OnSetDestinationPressed();
 	void OnSetDestinationReleased();
+
+	void Use1Spell1();
+	void Use2Spell1();
+	void Use3Spell1();
+	void Use4Spell1();
+	void Use5Spell1();
+	void Use6Spell1();
 };
 
 

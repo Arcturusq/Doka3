@@ -30,6 +30,13 @@ void Adoka3PlayerController::SetupInputComponent()
 	InputComponent->BindAction("SetDestination", IE_Pressed, this, &Adoka3PlayerController::OnSetDestinationPressed);
 	InputComponent->BindAction("SetDestination", IE_Released, this, &Adoka3PlayerController::OnSetDestinationReleased);
 
+	InputComponent->BindAction("Ability1", IE_Pressed, this, &Adoka3PlayerController::Use1Spell1);
+	InputComponent->BindAction("Ability2", IE_Pressed, this, &Adoka3PlayerController::Use2Spell1);
+	InputComponent->BindAction("Ability3", IE_Pressed, this, &Adoka3PlayerController::Use3Spell1);
+	InputComponent->BindAction("Ability4", IE_Pressed, this, &Adoka3PlayerController::Use4Spell1);
+	InputComponent->BindAction("Ability5", IE_Pressed, this, &Adoka3PlayerController::Use5Spell1);
+	InputComponent->BindAction("Ultimate", IE_Pressed, this, &Adoka3PlayerController::Use6Spell1);
+
 }
 
 void Adoka3PlayerController::MoveToMouseCursor()
@@ -86,4 +93,28 @@ void Adoka3PlayerController::OnSetDestinationReleased()
 {
 	// clear flag to indicate we should stop updating the destination
 	bMoveToMouseCursor = false;
+}
+
+void Adoka3PlayerController::Use1Spell1()
+{
+}
+
+void Adoka3PlayerController::Use2Spell1()
+{
+}
+
+void Adoka3PlayerController::Use3Spell1()
+{
+}
+
+void Adoka3PlayerController::Use4Spell1()
+{
+}
+
+void Adoka3PlayerController::Use5Spell1()
+{
+}
+
+void Adoka3PlayerController::Use6Spell1()
+{
 }
