@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+class Adoka3Character;
 #include "AbilityComponent.generated.h"
 
 
@@ -55,19 +56,19 @@ public:
 
 
 	UFUNCTION(BlueprintCallable, Category = "ActivateAbility")
-	virtual void ActivateAbility(ACharacter* OwnCharacter);
+	virtual void ActivateAbility(Adoka3Character* OwnCharacter);
 
 	UFUNCTION(BlueprintCallable, Category = "ActivateAbility")
-	virtual void ActivateTargetedAbility(ACharacter* OwnCharacter);
+	virtual void ActivateTargetedAbility(Adoka3Character* OwnCharacter);
 
 	UFUNCTION(BlueprintCallable, Category = "ActivateAbility")
-	virtual void ActivateSelfAbility(ACharacter* OwnCharacter);
+	virtual void ActivateSelfAbility(Adoka3Character* OwnCharacter);
 
 	UFUNCTION(BlueprintCallable, Category = "ActivateAbility")
-	virtual void ActivateAOEAbility(ACharacter* OwnCharacter);
+	virtual void ActivateAOEAbility(Adoka3Character* OwnCharacter);
 
 	UFUNCTION(BlueprintCallable, Category = "ActivateAbility")
-	virtual void StartChanneling(ACharacter* OwnCharacter);
+	virtual void ActivateChannelingAbility(Adoka3Character* OwnCharacter);
 	
 	
 

@@ -16,6 +16,8 @@ class DOKA3_API UHookAbilityComponent : public UAbilityComponent
 public:
 	UHookAbilityComponent(const FObjectInitializer& ObjectInitializer);
 
-	virtual void ActivateAbility(ACharacter* OwnCharacter)override;
+	virtual void ActivateAbility(Adoka3Character* OwnCharacter)override;
+
+	virtual void ActivateChannelingAbility(Adoka3Character* OwnCharacter)override;
 
 };

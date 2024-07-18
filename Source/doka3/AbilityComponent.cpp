@@ -2,6 +2,9 @@
 
 
 #include "AbilityComponent.h"
+#include "doka3Character.h"
+#include "doka3PlayerController.h"
+
 
 UAbilityComponent::UAbilityComponent(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer) // Вызов конструктора базового класса
@@ -27,7 +30,7 @@ void UAbilityComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 	// ...
 }
 
-void UAbilityComponent::ActivateAbility(ACharacter* OwnCharacter)
+void UAbilityComponent::ActivateAbility(Adoka3Character* OwnCharacter)
 {
     switch (AbilityType)
     {
@@ -44,26 +47,52 @@ void UAbilityComponent::ActivateAbility(ACharacter* OwnCharacter)
         // Activate passively, or simply do nothing here.
         break;
     case EAbilityType::Channeled:
-        StartChanneling(OwnCharacter);
+        ActivateChannelingAbility(OwnCharacter);
         break;
     }
-	GetWorld()->GetTimerManager().SetTimer(CooldownTimerHandle, this, &UAbilityComponent::CooldownExpired, Cooldown, false);
+    GetWorld()->GetTimerManager().SetTimer(CooldownTimerHandle, this, &UAbilityComponent::CooldownExpired, Cooldown, false);
 }
 
-void UAbilityComponent::ActivateTargetedAbility(ACharacter* OwnCharacter)
+void UAbilityComponent::ActivateTargetedAbility(Adoka3Character* OwnCharacter)
 {
 }
 
-void UAbilityComponent::ActivateSelfAbility(ACharacter* OwnCharacter)
+void UAbilityComponent::ActivateSelfAbility(Adoka3Character* OwnCharacter)
 {
 }
 
-void UAbilityComponent::ActivateAOEAbility(ACharacter* OwnCharacter)
+void UAbilityComponent::ActivateAOEAbility(Adoka3Character* OwnCharacter)
 {
 }
 
-void UAbilityComponent::StartChanneling(ACharacter* OwnCharacter)
+void UAbilityComponent::ActivateChannelingAbility(Adoka3Character* OwnCharacter)
 {
+    Adoka3PlayerController* PlayerController = Cast<Adoka3PlayerController>(OwnCharacter->GetController());
+    if (PlayerController)
+    {
+        // Получите позицию курсора в мире
+        FHitResult HitResult;
+        PlayerController->GetHitResultUnderCursor(ECollisionChannel::ECC_WorldDynamic, true, HitResult);
+
+        // Проверьте, что курсор попал на объект
+        if (HitResult.bBlockingHit)
+        {
+            // Используйте позицию курсора
+            FVector MousePosition = HitResult.Location;
+
+
+           
+
+
+            // ... ваш код, использующий MousePosition ...
+
+            // Например, вы можете показать эффект на этой позиции:
+            // SpawnEffectAtLocation(MousePosition);
+
+            // Или вызвать функцию в персонаже, передав позицию:
+            // OwnCharacter->DoSomethingWithMousePosition(MousePosition);
+        }
+    }
 }
 
 void UAbilityComponent::CooldownExpired()

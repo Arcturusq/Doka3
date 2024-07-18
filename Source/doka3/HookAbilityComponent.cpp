@@ -13,9 +13,13 @@ UHookAbilityComponent::UHookAbilityComponent(const FObjectInitializer& ObjectIni
 	bIsReady = true; // Способность готова к использованию при начале игры
 }
 
-void UHookAbilityComponent::ActivateAbility(ACharacter* OwnCharacter)
+void UHookAbilityComponent::ActivateAbility(Adoka3Character* OwnCharacter)
 {
 	Super::CooldownExpired();
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Ability activated"));
 	Super::CooldownExpired();
+}
+
+void UHookAbilityComponent::ActivateChannelingAbility(Adoka3Character* OwnCharacter)
+{
 }
