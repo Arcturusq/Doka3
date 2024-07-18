@@ -29,8 +29,41 @@ void UAbilityComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 
 void UAbilityComponent::ActivateAbility(ACharacter* OwnCharacter)
 {
-
+    switch (AbilityType)
+    {
+    case EAbilityType::Targeted:
+        ActivateTargetedAbility(OwnCharacter);
+        break;
+    case EAbilityType::Self:
+        ActivateSelfAbility(OwnCharacter);
+        break;
+    case EAbilityType::AOE:
+        ActivateAOEAbility(OwnCharacter);
+        break;
+    case EAbilityType::Passive:
+        // Activate passively, or simply do nothing here.
+        break;
+    case EAbilityType::Channeled:
+        StartChanneling(OwnCharacter);
+        break;
+    }
 	GetWorld()->GetTimerManager().SetTimer(CooldownTimerHandle, this, &UAbilityComponent::CooldownExpired, Cooldown, false);
+}
+
+void UAbilityComponent::ActivateTargetedAbility(ACharacter* OwnCharacter)
+{
+}
+
+void UAbilityComponent::ActivateSelfAbility(ACharacter* OwnCharacter)
+{
+}
+
+void UAbilityComponent::ActivateAOEAbility(ACharacter* OwnCharacter)
+{
+}
+
+void UAbilityComponent::StartChanneling(ACharacter* OwnCharacter)
+{
 }
 
 void UAbilityComponent::CooldownExpired()

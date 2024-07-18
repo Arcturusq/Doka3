@@ -17,4 +17,5 @@ void UHookAbilityComponent::ActivateAbility(ACharacter* OwnCharacter)
 {
 	Super::CooldownExpired();
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Ability activated"));
+	Super::CooldownExpired();
 }

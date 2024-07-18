@@ -7,6 +7,16 @@
 #include "AbilityComponent.generated.h"
 
 
+UENUM(BlueprintType)
+enum class EAbilityType : uint8
+{
+	Targeted,
+	Self,
+	AOE,
+	Passive,
+	Channeled
+};
+
 UCLASS(Abstract, Blueprintable, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class DOKA3_API UAbilityComponent : public UActorComponent
 {
@@ -40,8 +50,26 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cooldown")
 	bool bIsReady = true;
 
+	UPROPERTY(EditDefaultsOnly, Category = "AbilityType")
+	EAbilityType AbilityType;
+
+
 	UFUNCTION(BlueprintCallable, Category = "ActivateAbility")
 	virtual void ActivateAbility(ACharacter* OwnCharacter);
+
+	UFUNCTION(BlueprintCallable, Category = "ActivateAbility")
+	virtual void ActivateTargetedAbility(ACharacter* OwnCharacter);
+
+	UFUNCTION(BlueprintCallable, Category = "ActivateAbility")
+	virtual void ActivateSelfAbility(ACharacter* OwnCharacter);
+
+	UFUNCTION(BlueprintCallable, Category = "ActivateAbility")
+	virtual void ActivateAOEAbility(ACharacter* OwnCharacter);
+
+	UFUNCTION(BlueprintCallable, Category = "ActivateAbility")
+	virtual void StartChanneling(ACharacter* OwnCharacter);
+	
+	
 
 	// Функция для обработки таймера восстановления
 	UFUNCTION(BlueprintCallable, Category = "CooldownAbility")
