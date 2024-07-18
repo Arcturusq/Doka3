@@ -51,7 +51,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cooldown")
 	bool bIsReady = true;
 
-	UPROPERTY(EditDefaultsOnly, Category = "AbilityType")
 	EAbilityType AbilityType;
 
 
@@ -69,8 +68,6 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "ActivateAbility")
 	virtual void ActivateChannelingAbility(Adoka3Character* OwnCharacter);
-	
-	
 
 	// Функция для обработки таймера восстановления
 	UFUNCTION(BlueprintCallable, Category = "CooldownAbility")
