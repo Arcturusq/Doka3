@@ -24,7 +24,6 @@ void UHookAbilityComponent::ActivateAbility(Adoka3Character* OwnCharacter)
 
 void UHookAbilityComponent::ActivateChannelingAbility(Adoka3Character* OwnCharacter)
 {
-	Super::ActivateChannelingAbility(OwnCharacter);
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("ActivateChannelingAbility"));
 
 }

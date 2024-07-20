@@ -26,8 +26,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement")
 	class UProjectileMovementComponent* ProjectileMovement;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Collision")
-	class USphereComponent* CollisionComponent;
+	UPROPERTY(VisibleAnywhere, Category = "Mesh")
+	UStaticMeshComponent* StaticMeshComponent;
+
 
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);

@@ -75,35 +75,26 @@ void UAbilityComponent::ActivateAOEAbility(Adoka3Character* OwnCharacter)
 
 void UAbilityComponent::ActivateChannelingAbility(Adoka3Character* OwnCharacter)
 {
+	
+}
+
+FVector UAbilityComponent::GetMousePosition(Adoka3Character* OwnCharacter)
+{
 	Adoka3PlayerController* PlayerController = Cast<Adoka3PlayerController>(OwnCharacter->GetController());
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Black, TEXT("UAbilityComponent::ActivateChannelingAbility"));
 
 	if (PlayerController)
 	{
 		// Получите позицию курсора в мире
 		FHitResult HitResult;
 		PlayerController->GetHitResultUnderCursor(ECollisionChannel::ECC_WorldDynamic, true, HitResult);
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, TEXT("if (PlayerController)"));
 		// Проверьте, что курсор попал на объект
 		if (HitResult.bBlockingHit)
 		{
-			// Используйте позицию курсора
-			FVector MousePosition = HitResult.Location;
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Silver, TEXT("if (HitResult.bBlockingHit)"));
-
-			UClass* CharacterClass = Adoka3Character::StaticClass();
-			Adoka3Character* NewCharacter = GetWorld()->SpawnActor<Adoka3Character>(CharacterClass, MousePosition, FRotator::ZeroRotator);
-			
-
-			// ... ваш код, использующий MousePosition ...
-
-			// Например, вы можете показать эффект на этой позиции:
-			// SpawnEffectAtLocation(MousePosition);
-
-			// Или вызвать функцию в персонаже, передав позицию:
-			// OwnCharacter->DoSomethingWithMousePosition(MousePosition);
+			return HitResult.Location;
 		}
 	}
+
+	return FVector();
 }
 
 void UAbilityComponent::CooldownExpired()
