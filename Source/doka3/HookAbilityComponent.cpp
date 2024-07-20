@@ -1,6 +1,9 @@
 //
 
 #include "HookAbilityComponent.h"
+#include "doka3Character.h" 
+#include "HookProjectile.h"
+#include "GameFramework/ProjectileMovementComponent.h" 
 
 UHookAbilityComponent::UHookAbilityComponent(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
@@ -24,6 +27,26 @@ void UHookAbilityComponent::ActivateAbility(Adoka3Character* OwnCharacter)
 
 void UHookAbilityComponent::ActivateChannelingAbility(Adoka3Character* OwnCharacter)
 {
+
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("ActivateChannelingAbility"));
 
+	FVector TargetPosition = GetMousePosition(OwnCharacter);
+
+	//  Проверка,  что  курсор  попал  на  объект
+	if (TargetPosition != FVector::ZeroVector)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("TargetPosition != FVector::ZeroVector"));
+		//  Создание  нового  актора  "Hook"
+		UClass* HookClass = AHookProjectile::StaticClass();
+		AHookProjectile* HookActor = GetWorld()->SpawnActor<AHookProjectile>(HookClass, OwnCharacter->GetActorLocation(), FRotator::ZeroRotator);
+		HookActor->OwnerCharacter = OwnerDoka3Character;
+		if (HookActor)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, TEXT("HookActor"));
+			//  Установите  начальную  скорость  и  направление
+			HookActor->ProjectileMovement->Velocity = (TargetPosition - OwnCharacter->GetActorLocation()).GetSafeNormal() * fHookSpeed;
+
+			//  ...  другие  настройки  хука  ...
+		}
+	}
 }

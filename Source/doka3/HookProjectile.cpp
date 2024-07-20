@@ -4,7 +4,9 @@
 #include "Components/StaticMeshComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "UObject/ConstructorHelpers.h"
-
+#include "GameFramework/Character.h" 
+#include "Components/SphereComponent.h"
+#include "doka3Character.h"
 
 // Sets default values
 AHookProjectile::AHookProjectile()
@@ -15,17 +17,31 @@ AHookProjectile::AHookProjectile()
 	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMeshComponent"));
 	RootComponent = StaticMeshComponent;
 
+
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovement"));
 	ProjectileMovement->SetUpdatedComponent(StaticMeshComponent);
 	ProjectileMovement->InitialSpeed = 3000.0f;
 	ProjectileMovement->MaxSpeed = 3000.0f;
 	ProjectileMovement->bRotationFollowsVelocity = true;
 	ProjectileMovement->bShouldBounce = false;
+	ProjectileMovement->ProjectileGravityScale = 0.0f;
 
-	static ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAsset(TEXT("StaticMesh'/Game/Meshes/1M_Cube_Chamfer.1M_Cube_Chamfer'"));
+	// Создаем сферу для коллизий
+	CollisionComp = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComp"));
+	CollisionComp->InitSphereRadius(10.0f);
+	CollisionComp->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	CollisionComp->SetCollisionProfileName("Projectile");
+	CollisionComp->OnComponentBeginOverlap.AddDynamic(this, &AHookProjectile::OnOverlapBegin);
+	CollisionComp->SetupAttachment(RootComponent); // Подключаем к корневому компоненту
+
+	static ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAsset(TEXT("StaticMesh'/Game/Geometry/Meshes/1M_Cube.1M_Cube'"));
 	if (MeshAsset.Succeeded())
 	{
 		StaticMeshComponent->SetStaticMesh(MeshAsset.Object);
+
+
+		StaticMeshComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
 	}
 }
 
@@ -42,11 +58,20 @@ void AHookProjectile::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
-void AHookProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+void AHookProjectile::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	// Пример логики при столкновении
-	if (OtherActor && (OtherActor != this) && OtherComp)
+	if (OtherActor && OtherActor->IsA(ACharacter::StaticClass()))
 	{
-
+		if (OtherActor != OwnerCharacter) {
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("OtherActor != OwnerCharacter"));
+			TargetActor = OtherActor;
+			PullTarget();
+		}	
 	}
+}
+
+void AHookProjectile::PullTarget()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("PullTarget"));
+
 }
