@@ -7,6 +7,7 @@
 #include "GameFramework/Character.h" 
 #include "Components/SphereComponent.h"
 #include "doka3Character.h"
+#include "HookAbilityComponent.h"
 
 // Sets default values
 AHookProjectile::AHookProjectile()
@@ -43,6 +44,7 @@ AHookProjectile::AHookProjectile()
 		StaticMeshComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	}
+
 }
 
 // Called when the game starts or when spawned
@@ -60,13 +62,14 @@ void AHookProjectile::Tick(float DeltaTime)
 }
 void AHookProjectile::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("OwnerCharacter: %s"), OwnerCharacter ? *OwnerCharacter->GetName() : TEXT("nullptr")));
 	if (OtherActor && OtherActor->IsA(ACharacter::StaticClass()))
 	{
 		if (OtherActor != OwnerCharacter) {
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("OtherActor != OwnerCharacter"));
 			TargetActor = OtherActor;
 			PullTarget();
-		}	
+		}
 	}
 }
 

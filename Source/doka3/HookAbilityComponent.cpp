@@ -16,6 +16,8 @@ UHookAbilityComponent::UHookAbilityComponent(const FObjectInitializer& ObjectIni
 	bIsReady = true; // Способность готова к использованию при начале игры
 
 	AbilityType = EAbilityType::Channeled;
+
+	//OwnerDoka3Character = Cast<Adoka3Character>(GetOwner());
 }
 
 void UHookAbilityComponent::ActivateAbility(Adoka3Character* OwnCharacter)
@@ -38,8 +40,12 @@ void UHookAbilityComponent::ActivateChannelingAbility(Adoka3Character* OwnCharac
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("TargetPosition != FVector::ZeroVector"));
 		//  Создание  нового  актора  "Hook"
 		UClass* HookClass = AHookProjectile::StaticClass();
-		AHookProjectile* HookActor = GetWorld()->SpawnActor<AHookProjectile>(HookClass, OwnCharacter->GetActorLocation(), FRotator::ZeroRotator);
-		HookActor->OwnerCharacter = OwnerDoka3Character;
+
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.Owner = OwnerDoka3Character;
+
+		AHookProjectile* HookActor = GetWorld()->SpawnActor<AHookProjectile>(HookClass,
+			OwnCharacter->GetActorLocation(), FRotator::ZeroRotator, SpawnParams);
 		if (HookActor)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, TEXT("HookActor"));

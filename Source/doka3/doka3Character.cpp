@@ -89,7 +89,6 @@ Adoka3Character::Adoka3Character()
 		Abilities[i] = nullptr;
 	}
 	UHookAbilityComponent* HookAbility = CreateDefaultSubobject<UHookAbilityComponent>(TEXT("HookAbility"));
-	HookAbility->OwnerDoka3Character = this;
 	AddAbility(HookAbility, 0); // Добавление способности в массив
 }
 

@@ -36,7 +36,7 @@ public:
 
 	AActor* TargetActor;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Owner")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "OwnerCharacter")
 	Adoka3Character* OwnerCharacter;
 
 	UFUNCTION(BlueprintCallable, Category = "Collision")
