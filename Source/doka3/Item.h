@@ -21,8 +21,13 @@ public:
 	UStaticMeshComponent* ItemMesh;
 	
 	// Функция выкладки предмета
+	UFUNCTION(BlueprintCallable, Category = "BattleFieldActions")
 	void PlaceItem(UBattlefield* battlefield, FVector2D gridPosition);
 
-	// Функция удаления предмета с поля битвы
+	// Функция удаления предмета с поля битвы-
+	UFUNCTION(BlueprintCallable, Category = "BattleFieldActions")
 	void RemoveItemFromBattlefield();
+
+	UFUNCTION(BlueprintCallable, Category = "ActivateItem")
+	void ActivateItem();
 };

@@ -14,3 +14,7 @@ void UItem::RemoveItemFromBattlefield()
 {
     ItemMesh->SetVisibility(false);
 }
+
+void UItem::ActivateItem()
+{
+}
