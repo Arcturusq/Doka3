@@ -8,6 +8,7 @@
 #include "Components/ListView.h"
 class UItem;
 class UInventory;
+class UInventoryCell;
 #include "InventoryWidget.generated.h"
 
 /**
@@ -19,7 +20,9 @@ class DOKA3_API UInventoryWidget : public UUserWidget
 	GENERATED_BODY()
 	
 public:
-    // ...
+
+    UPROPERTY(EditDefaultsOnly, Category = "Inventory")
+    TArray<UInventoryCell*> InventoryCells;
 
     // Функции для обновления UI
     void UpdateInventoryUI();
