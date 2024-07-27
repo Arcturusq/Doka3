@@ -82,11 +82,11 @@ void AHookProjectile::Tick(float DeltaTime)
 }
 void AHookProjectile::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("OwnerCharacter: %s"), OwnerCharacter ? *OwnerCharacter->GetName() : TEXT("nullptr")));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("OwnerCharacter: %s"), OwnerCharacter ? *OwnerCharacter->GetName() : TEXT("nullptr")));
 	if (OtherActor && OtherActor->IsA(ACharacter::StaticClass()))
 	{
 		if (OtherActor != OwnerCharacter && OwnerCharacter) {
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("OtherActor != OwnerCharacter"));
+			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("OtherActor != OwnerCharacter"));
 			TargetActor = OtherActor;
 			PullTarget();
 		}
@@ -104,6 +104,9 @@ void AHookProjectile::HookEnd()
 		//TargetActor->DetachFromActor(FDetachmentTransformRules::KeepRelativeTransform);
 		//TargetActor->GetRootComponent()->DetachFromComponent(FDetachmentTransformRules::KeepRelativeTransform);
 
+		TargetActor->SetActorEnableCollision(true);
+
+
 		FVector TargetLocation = TargetActor->GetActorLocation();
 
 		// Привязываем TargetActor к AHookProjectile
@@ -111,6 +114,17 @@ void AHookProjectile::HookEnd()
 
 		// Восстанавливаем положение TargetActor
 		TargetActor->SetActorLocation(TargetLocation);
+
+
+		// Получите текущий поворот актора
+		FRotator CurrentRotation = TargetActor->GetActorRotation();
+
+		// Измените угол поворота по горизонтали (например, на 90 градусов)
+		CurrentRotation.Yaw = 90.f;
+
+		// Установите новый поворот актора
+		TargetActor->SetActorRotation(CurrentRotation);
+
 
 		TargetActor = nullptr; // Сбрасываем указатель на объект
 	}
@@ -126,7 +140,11 @@ void AHookProjectile::PullTarget()
 	//	TargetedCharacter->GetCharacterMovement()->SetMovementMode(MOVE_None);
 	//}
 
+
 	if (TargetActor) {
+
+		TargetActor->SetActorEnableCollision(false);
+
 
 		/* IfTargetedActorAttachedToSoething: (but Engine crashing :( )
 		if (TargetActor->GetAttachParentActor()) {
@@ -150,7 +168,7 @@ void AHookProjectile::PullTarget()
 
 
 
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("PullTarget"));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("PullTarget"));
 
 	// Запускаем таймер с интервалом 0.1 секунды
 	GetWorldTimerManager().SetTimer(TimerHandle, this, &AHookProjectile::OnTimer, TimerInterval, true);
