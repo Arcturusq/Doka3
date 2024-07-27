@@ -8,6 +8,8 @@
 #include "Components/SphereComponent.h"
 #include "doka3Character.h"
 #include "HookAbilityComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
+
 
 // Sets default values
 AHookProjectile::AHookProjectile()
@@ -92,17 +94,60 @@ void AHookProjectile::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor
 			HookEnd();
 		}
 	}
-
 }
 
 void AHookProjectile::HookEnd()
 {
+
 	GetWorldTimerManager().ClearTimer(TimerHandle);
+	if (TargetActor) {
+		//TargetActor->DetachFromActor(FDetachmentTransformRules::KeepRelativeTransform);
+		//TargetActor->GetRootComponent()->DetachFromComponent(FDetachmentTransformRules::KeepRelativeTransform);
+
+		FVector TargetLocation = TargetActor->GetActorLocation();
+
+		// Привязываем TargetActor к AHookProjectile
+		TargetActor->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+
+		// Восстанавливаем положение TargetActor
+		TargetActor->SetActorLocation(TargetLocation);
+
+		TargetActor = nullptr; // Сбрасываем указатель на объект
+	}
 	Destroy();
 }
 
 void AHookProjectile::PullTarget()
 {
+	// Отключаем движение TargetActor
+	//if (ACharacter* TargetedCharacter = Cast<ACharacter>(TargetActor))
+	//{
+	//	TargetedCharacter->GetCharacterMovement()->Velocity = FVector::ZeroVector;
+	//	TargetedCharacter->GetCharacterMovement()->SetMovementMode(MOVE_None);
+	//}
+
+	if (TargetActor) {
+
+		/* IfTargetedActorAttachedToSoething: (but Engine crashing :( )
+		if (TargetActor->GetAttachParentActor()) {
+			FVector DetachTargetLocation = TargetActor->GetActorLocation();
+
+			// Привязываем TargetActor к AHookProjectile
+			TargetActor->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+
+			// Восстанавливаем положение TargetActor
+			TargetActor->SetActorLocation(DetachTargetLocation);
+		}*/
+
+		FVector TargetLocation = TargetActor->GetActorLocation();
+
+		// Привязываем TargetActor к AHookProjectile
+		TargetActor->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+
+		// Восстанавливаем положение TargetActor
+		TargetActor->SetActorLocation(TargetLocation);
+	}
+
 
 
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("PullTarget"));

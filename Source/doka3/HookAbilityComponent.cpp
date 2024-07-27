@@ -37,6 +37,12 @@ void UHookAbilityComponent::ActivateChannelingAbility(Adoka3Character* OwnCharac
 	//  Проверка,  что  курсор  попал  на  объект
 	if (TargetPosition != FVector::ZeroVector)
 	{
+		if (OwnCharacter->TargetedEnemy) {
+			TargetPosition = OwnCharacter->TargetedEnemy->GetActorLocation();
+		}
+		TargetPosition.Y += 120;
+
+
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("TargetPosition != FVector::ZeroVector"));
 		//  Создание  нового  актора  "Hook"
 		UClass* HookClass = AHookProjectile::StaticClass();
