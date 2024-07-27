@@ -44,6 +44,7 @@ AHookProjectile::AHookProjectile()
 		StaticMeshComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	}
+	OwnerCharacter = nullptr;
 
 }
 
@@ -65,7 +66,7 @@ void AHookProjectile::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("OwnerCharacter: %s"), OwnerCharacter ? *OwnerCharacter->GetName() : TEXT("nullptr")));
 	if (OtherActor && OtherActor->IsA(ACharacter::StaticClass()))
 	{
-		if (OtherActor != OwnerCharacter) {
+		if (OtherActor != OwnerCharacter && OwnerCharacter) {
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("OtherActor != OwnerCharacter"));
 			TargetActor = OtherActor;
 			PullTarget();

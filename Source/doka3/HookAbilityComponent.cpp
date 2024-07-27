@@ -41,11 +41,11 @@ void UHookAbilityComponent::ActivateChannelingAbility(Adoka3Character* OwnCharac
 		//  Создание  нового  актора  "Hook"
 		UClass* HookClass = AHookProjectile::StaticClass();
 
-		FActorSpawnParameters SpawnParams;
-		SpawnParams.Owner = OwnerDoka3Character;
-
 		AHookProjectile* HookActor = GetWorld()->SpawnActor<AHookProjectile>(HookClass,
-			OwnCharacter->GetActorLocation(), FRotator::ZeroRotator, SpawnParams);
+			OwnCharacter->GetActorLocation(), FRotator::ZeroRotator);
+		HookActor->OwnerCharacter = OwnCharacter;
+
+
 		if (HookActor)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Emerald, TEXT("HookActor"));

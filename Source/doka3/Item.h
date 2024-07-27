@@ -8,7 +8,7 @@ class UBattlefield;
 #include "Item.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class DOKA3_API UItem : public UObject
@@ -19,7 +19,14 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Item")
 	UStaticMeshComponent* ItemMesh;
-	
+
+	UPROPERTY(EditDefaultsOnly, Category = "Item")
+	FString ItemName;
+
+	// Иконка предмета
+	UPROPERTY(EditDefaultsOnly, Category = "Item")
+	UTexture2D* ItemIcon;
+
 	// Функция выкладки предмета
 	UFUNCTION(BlueprintCallable, Category = "BattleFieldActions")
 	void PlaceItem(UBattlefield* battlefield, FVector2D gridPosition);
@@ -30,4 +37,6 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "ActivateItem")
 	void ActivateItem();
+
+
 };
