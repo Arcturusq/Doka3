@@ -21,8 +21,8 @@ AHookProjectile::AHookProjectile()
 
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovement"));
 	ProjectileMovement->SetUpdatedComponent(StaticMeshComponent);
-	ProjectileMovement->InitialSpeed = 3000.0f;
-	ProjectileMovement->MaxSpeed = 3000.0f;
+	ProjectileMovement->InitialSpeed = 1000.0f;
+	ProjectileMovement->MaxSpeed = 1000.0f;
 	ProjectileMovement->bRotationFollowsVelocity = true;
 	ProjectileMovement->bShouldBounce = false;
 	ProjectileMovement->ProjectileGravityScale = 0.0f;
@@ -53,6 +53,23 @@ void AHookProjectile::BeginPlay()
 {
 	Super::BeginPlay();
 
+
+}
+
+void AHookProjectile::OnTimer()
+{
+	if (OwnerCharacter) // Проверяем, есть ли TargetActor
+	{
+		// Вычисляем расстояние до OwnerCharacter
+		float DistanceToOwner = FVector::Dist(GetActorLocation(), OwnerCharacter->GetActorLocation());
+		// Если расстояние больше 50, двигаемся к OwnerCharacter
+		if (DistanceToOwner > 50.0f)
+		{
+			FVector Direction = (OwnerCharacter->GetActorLocation() - GetActorLocation()).GetSafeNormal();
+			ProjectileMovement->Velocity = Direction * ProjectileMovement->MaxSpeed;
+		}
+		// Иначе, останавливаемся 
+	}
 }
 
 // Called every frame
@@ -71,11 +88,25 @@ void AHookProjectile::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor
 			TargetActor = OtherActor;
 			PullTarget();
 		}
+		else if (TargetActor && OtherActor == OwnerCharacter && OwnerCharacter) {
+			HookEnd();
+		}
 	}
+
+}
+
+void AHookProjectile::HookEnd()
+{
+	GetWorldTimerManager().ClearTimer(TimerHandle);
+	Destroy();
 }
 
 void AHookProjectile::PullTarget()
 {
+
+
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("PullTarget"));
 
+	// Запускаем таймер с интервалом 0.1 секунды
+	GetWorldTimerManager().SetTimer(TimerHandle, this, &AHookProjectile::OnTimer, TimerInterval, true);
 }
