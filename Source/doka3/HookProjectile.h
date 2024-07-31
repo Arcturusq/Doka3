@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "Components/SphereComponent.h" 
 class Adoka3Character;
+class UHookAbilityComponent;
 #include "HookProjectile.generated.h"
 
 UCLASS()
@@ -21,9 +22,15 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	FTimerHandle TimerHandle; // Таймер
-	float TimerInterval = 0.1f; // Интервал таймера (0.1 секунды)
-	void OnTimer();
+	FTimerHandle ReturnTimerHandle; // Таймер
+	float ReturnTimerInterval = 0.1f; // Интервал таймера (0.1 секунды)
+	void OnReturnTimer();
+
+	FTimerHandle DistanceTimerHandle; // Таймер
+	float DistanceTimerInterval = 0.1f; // Интервал таймера (0.1 секунды)
+	void OnDistanceTimer();
+
+	bool ReturnRunned = false;
 
 public:
 	// Called every frame
@@ -38,12 +45,21 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Collision")
 	USphereComponent* CollisionComp;
 
+
+	FVector StartLocation;
+
 	AActor* TargetActor;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "OwnerCharacter")
 	Adoka3Character* OwnerCharacter;
 
-	UFUNCTION(BlueprintCallable, Category = "Collision")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "OwnerCharacter")
+	UHookAbilityComponent* HookAbility;
+
+	UFUNCTION(BlueprintCallable, Category = "ReturnHook")
+	void ReturnHook();
+
+	UFUNCTION(BlueprintCallable, Category = "PullTarget")
 	void PullTarget();
 
 	UFUNCTION(BlueprintCallable, Category = "Collision")

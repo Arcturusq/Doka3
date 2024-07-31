@@ -27,14 +27,14 @@ void Adoka3PlayerController::BeginPlay()
 	Super::BeginPlay();
 
 	MyCharacter = Cast<Adoka3Character>(GetPawn());
-	if (MyCharacter)
-	{
-		// Успешное приведение типа
-	}
-	else
-	{
-		// Обработка ошибки приведения типа
-	}
+	//if (MyCharacter)
+	//{
+	//	// Успешное приведение типа
+	//}
+	//else
+	//{
+	//	// Обработка ошибки приведения типа
+	//}
 }
 void Adoka3PlayerController::SetupInputComponent()
 {

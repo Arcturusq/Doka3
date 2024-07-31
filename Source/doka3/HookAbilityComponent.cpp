@@ -5,6 +5,7 @@
 #include "HookProjectile.h"
 #include "GameFramework/ProjectileMovementComponent.h" 
 
+
 UHookAbilityComponent::UHookAbilityComponent(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
@@ -40,7 +41,9 @@ void UHookAbilityComponent::ActivateChannelingAbility(Adoka3Character* OwnCharac
 		if (OwnCharacter->TargetedEnemy) {
 			TargetPosition = OwnCharacter->TargetedEnemy->GetActorLocation();
 		}
-		TargetPosition.Y += 120;
+		else {
+			TargetPosition.Z += 88.0f;
+		}
 
 
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("TargetPosition != FVector::ZeroVector"));
@@ -50,6 +53,7 @@ void UHookAbilityComponent::ActivateChannelingAbility(Adoka3Character* OwnCharac
 		AHookProjectile* HookActor = GetWorld()->SpawnActor<AHookProjectile>(HookClass,
 			OwnCharacter->GetActorLocation(), FRotator::ZeroRotator);
 		HookActor->OwnerCharacter = OwnCharacter;
+		HookActor->HookAbility = this;
 
 
 		if (HookActor)
