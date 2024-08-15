@@ -20,25 +20,25 @@ class DOKA3_API UInventoryCell : public UUserWidget
 
 public:
 
-	UPROPERTY(BlueprintReadWrite, Category = "InventoryCell")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "InventoryCell")
 	int32 SlotIndex;
 	UPROPERTY(EditDefaultsOnly, Category = "InventoryCell")
 	UImage* ItemImage;
 	UPROPERTY(EditDefaultsOnly, Category = "InventoryCell")
-	UTextBlock* ItemNameText; // Используем UTextBlock
-	UPROPERTY(EditDefaultsOnly, Category = "InventoryCell")
+	UTextBlock* ItemNameText;
+	UPROPERTY(meta = (BindWidget))
 	UButton* ItemButton;
+	UPROPERTY(BlueprintReadWrite, Category = "InventoryCell")
+	UItem* CurrentItem;
 
 	void SetItem(UItem* item);
 	void ClearItem();
 
 	// Функции для обработки событий
-	void OnClicked();
+	void OnButtonClicked();
 	void OnDragDetected(const FGeometry& MyGeometry, const FPointerEvent& PointerEvent);
 	void OnDropDetected(const FGeometry& MyGeometry, const FPointerEvent& PointerEvent);
 
 protected:
-	UPROPERTY(BlueprintReadWrite, Category = "InventoryCell")
-	UItem* CurrentItem;
-
+	virtual void NativeConstruct() override;
 };

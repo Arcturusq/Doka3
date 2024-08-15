@@ -118,13 +118,13 @@ void Adoka3Character::Tick(float DeltaSeconds)
 			// Ќовый код дл€ определени€ цели
 			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Hit Actor: %s"), *GetNameSafe(TraceHitResult.GetActor())));
 			ACharacter* HitCharacter = Cast<ACharacter>(TraceHitResult.GetActor());
-			if (HitCharacter && HitCharacter != this) // ѕровер€ем, что персонаж не пытаетс€ атаковать сам себ€
+			if (HitCharacter) // ѕровер€ем, что персонаж не пытаетс€ атаковать сам себ€
 			{
 				//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("hit"));
-				TargetedEnemy = HitCharacter;
+				TargetedCharacter = HitCharacter;
 			}
 			else {
-				TargetedEnemy = nullptr;
+				TargetedCharacter = nullptr;
 			}
 
 		}

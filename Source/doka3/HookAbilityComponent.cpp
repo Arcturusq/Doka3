@@ -38,8 +38,8 @@ void UHookAbilityComponent::ActivateChannelingAbility(Adoka3Character* OwnCharac
 	//  Проверка,  что  курсор  попал  на  объект
 	if (TargetPosition != FVector::ZeroVector)
 	{
-		if (OwnCharacter->TargetedEnemy) {
-			TargetPosition = OwnCharacter->TargetedEnemy->GetActorLocation();
+		if (OwnCharacter->TargetedCharacter) {
+			TargetPosition = OwnCharacter->TargetedCharacter->GetActorLocation();
 		}
 		else {
 			TargetPosition.Z += 88.0f;

@@ -104,7 +104,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation")
 	UAnimMontage* AttackAnimMontage;
 
-	ACharacter* TargetedEnemy;
+	ACharacter* TargetedCharacter;
 	ACharacter* AttackEnemy;
 
 	UStateWidget* CharacterWidget;

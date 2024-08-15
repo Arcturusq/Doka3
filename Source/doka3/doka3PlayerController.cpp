@@ -82,9 +82,8 @@ void Adoka3PlayerController::SetNewMoveDestination(const FVector DestLocation)
 		//}
 		// Получаем персонажа и вызываем метод атаки
 		if (MyCharacter) {
-			if (MyCharacter->TargetedEnemy) {
-				//MyCharacter->AttackTarget(MyCharacter->TargetedEnemy);
-				MyCharacter->AttackEnemy = MyCharacter->TargetedEnemy;
+			if (MyCharacter->TargetedCharacter && MyCharacter->TargetedCharacter != MyCharacter) {
+				MyCharacter->AttackEnemy = MyCharacter->TargetedCharacter;
 			}
 			else {
 				if (MyCharacter->bIsAttacking) {
