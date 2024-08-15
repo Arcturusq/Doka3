@@ -6,9 +6,9 @@
 #include "Blueprint/UserWidget.h"
 #include "Components/Image.h"
 #include "Components/ListView.h"
+#include "InventoryCell.h"
 class UItem;
 class UInventory;
-class UInventoryCell;
 #include "InventoryWidget.generated.h"
 
 /**
@@ -21,11 +21,27 @@ class DOKA3_API UInventoryWidget : public UUserWidget
 
 public:
 
-	UPROPERTY(EditDefaultsOnly, Category = "Inventory")
-	TArray<UInventoryCell*> InventoryCells;
+
+	UPROPERTY(meta = (BindWidget))
+	UInventoryCell* InventoryCell1;
+
+	UPROPERTY(meta = (BindWidget))
+	UInventoryCell* InventoryCell2;
+
+	UPROPERTY(meta = (BindWidget))
+	UInventoryCell* InventoryCell3;
+
+	UPROPERTY(meta = (BindWidget))
+	UInventoryCell* InventoryCell4;
+
+	UPROPERTY(meta = (BindWidget))
+	UInventoryCell* InventoryCell5;
+
+	UPROPERTY(meta = (BindWidget))
+	UInventoryCell* InventoryCell6;
 
 	// Функции для обновления UI
-	void UpdateInventoryUI();
+	//void UpdateInventoryUI();
 	void OnItemDragDetected(const FGeometry& MyGeometry, const FPointerEvent& PointerEvent);
 	void OnItemDropDetected(const FGeometry& MyGeometry, const FPointerEvent& PointerEvent);
 	void OnItemClicked(UItem* Item);
@@ -43,8 +59,8 @@ protected:
 	UPROPERTY(BlueprintReadWrite, Category = "Inventory")
 	UInventory* PlayerInventory;
 
-	UFUNCTION(BlueprintCallable, Category = "Inventory")
-	void InitializeInventoryCells();
+	/*UFUNCTION(BlueprintCallable, Category = "Inventory")
+	void InitializeInventoryCells();*/
 
 	void NativeConstruct();
 };
