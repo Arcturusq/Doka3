@@ -10,12 +10,13 @@ class UBattlefield;
 /**
  *
  */
-UCLASS()
+UCLASS(Abstract)
 class DOKA3_API UItem : public UObject
 {
 	GENERATED_BODY()
 
 public:
+	UItem();
 
 	UPROPERTY(EditDefaultsOnly, Category = "Item")
 	UStaticMeshComponent* ItemMesh;
