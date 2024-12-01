@@ -1,0 +1,179 @@
+[33mcommit 515cedab69f119b96796f0a7b4c9b52194329052[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mdevelop[m[33m, [m[1;31morigin/develop[m[33m)[m
+Author: Arcturusq <arcturusq@yandex.ru>
+Date:   Thu Aug 15 12:46:03 2024 +0300
+
+    the Widget has been changed taking into account inventory cells
+
+[33mcommit 398f9aadd9c0fb656ae8be47484d67da5295205a[m
+Author: Arcturusq <arcturusq@yandex.ru>
+Date:   Thu Aug 15 12:45:30 2024 +0300
+
+    InventoryCell prototype
+
+[33mcommit 526ad8c6fbd67fbf8b5f884483be4531e0db2aa1[m
+Author: Arcturusq <arcturusq@yandex.ru>
+Date:   Thu Aug 15 12:17:10 2024 +0300
+
+    the Widget has been changed taking into account inventory cells
+
+[33mcommit 097b6bf91774ecff216873b8052831bf63655a2b[m
+Author: Arcturusq <arcturusq@yandex.ru>
+Date:   Thu Aug 15 12:14:38 2024 +0300
+
+    the UItem class become abstract
+
+[33mcommit 979b0b2165d5236849c79584c5e47b4c4fb3eaf9[m
+Author: Arcturusq <arcturusq@yandex.ru>
+Date:   Thu Aug 15 12:12:49 2024 +0300
+
+    Constructor addition
+
+[33mcommit dae176ecb9331d85c10b8542b763f9d08f7af126[m
+Author: Arcturusq <arcturusq@yandex.ru>
+Date:   Thu Aug 15 11:49:23 2024 +0300
+
+    TargetEnemy replased to TargetedCharacter
+
+[33mcommit 5d21187c5fdf737dc84730d2ca56362fde94b874[m
+Author: Arcturusq <arcturusq@yandex.ru>
+Date:   Wed Jul 31 17:41:47 2024 +0300
+
+    before TargetEnemy variable editing(in doka3Character)
+
+[33mcommit a804ca7324ae5a34fd42d5fc8aade3764b5798ec[m
+Author: Arcturusq <arcturusq@yandex.ru>
+Date:   Sat Jul 27 22:13:56 2024 +0300
+
+    Hook can pull object to AbilityOwner
+
+[33mcommit a9917f53c8fad069abefa509731c8da55940b82e[m
+Author: Arcturusq <arcturusq@yandex.ru>
+Date:   Sat Jul 27 21:45:31 2024 +0300
+
+    TargetPosinion 120 above the landscape
+
+[33mcommit 4130b74c39346ffa66983dce10b2ef84d8608fe3[m
+Author: Arcturusq <arcturusq@yandex.ru>
+Date:   Sat Jul 27 16:05:52 2024 +0300
+
+    Hook can return
+
+[33mcommit 0f1ff8d8dc7aec0c89d843854d03e514142ebaf0[m
+Author: Arcturusq <arcturusq@yandex.ru>
+Date:   Sat Jul 27 14:21:56 2024 +0300
+
+    Hook overlaping works correctly
+
+[33mcommit 64c7f76eff78fd12e41ab34096058d2463e9c0e4[m
+Author: Arcturusq <arcturusq@yandex.ru>
+Date:   Mon Jul 22 14:19:18 2024 +0300
+
+    adding an inventory cell class, adding a BPInventoryWidget
+
+[33mcommit 585536ba7464cd4ce9ac887cba1210fadd83229d[m
+Author: Arcturusq <arcturusq@yandex.ru>
+Date:   Mon Jul 22 12:25:15 2024 +0300
+
+    InventoryWidget addition and updating item and inventory
+
+[33mcommit cae7b5f7756ea6d3a73cc73682cb03a3944574d3[m
+Author: Arcturusq <arcturusq@yandex.ru>
+Date:   Sun Jul 21 21:51:15 2024 +0300
+
+    Creating the base of pick up and drop an item
+
+[33mcommit eeebb7c9e029e550d7f8b1e96503e52a74729dc8[m
+Author: Arcturusq <arcturusq@yandex.ru>
+Date:   Sun Jul 21 21:42:24 2024 +0300
+
+    Battlefield objClass and Item objClass
+
+[33mcommit 7933f8043beab41cd0940e78513aa644fc2b9521[m
+Author: Arcturusq <arcturusq@yandex.ru>
+Date:   Sat Jul 20 23:23:34 2024 +0300
+
+    Hook overlap addition
+
+[33mcommit 720f6540b364e46b3fba984ca5b434ca87dc7923[m
+Author: Arcturusq <arcturusq@yandex.ru>
+Date:   Sat Jul 20 16:19:35 2024 +0300
+
+    HookProjectile prototype
+
+[33mcommit 5e80eb3c2ef82159e598c22f3a4c41e0ef2b8b15[m
+Author: Arcturusq <arcturusq@yandex.ru>
+Date:   Thu Jul 18 20:27:54 2024 +0300
+
+    Prototype ability already working
+
+[33mcommit 59193acb3b81bf2dda6d1839e8878ede4689286d[m
+Author: Arcturusq <arcturusq@yandex.ru>
+Date:   Thu Jul 18 17:59:28 2024 +0300
+
+    MousePosition addition to UAbilityComponent::ActivateChannelingAbility
+
+[33mcommit a705f5116fd02bbc67b29d9dc2d3093fa9cd0fa4[m
+Author: Arcturusq <arcturusq@yandex.ru>
+Date:   Thu Jul 18 16:25:03 2024 +0300
+
+    Ability focus functions  and ability focus types addition
+
+[33mcommit 8b4c614d58336be2c3c6236d3bab3af0eda004ad[m
+Author: Arcturusq <arcturusq@yandex.ru>
+Date:   Thu Jul 18 13:02:42 2024 +0300
+
+    Hookprojectile
+
+[33mcommit afdd2e42040c91b5bbb0c068a5aa3230f1a9017e[m
+Author: Arcturusq <arcturusq@yandex.ru>
+Date:   Sun Jul 14 20:32:49 2024 +0300
+
+    Abilitys array chenged, added using a prototype ability
+
+[33mcommit e1804c9e8f0532a51ac96dff04e5a3067572e817[m
+Author: Arcturusq <arcturusq@yandex.ru>
+Date:   Sun Jul 14 15:52:54 2024 +0300
+
+    Addition functions of using Abilitys to doka3playerController
+
+[33mcommit b858cc05f2f6a6b54217aed75f025b4b538f5fe2[m
+Author: Arcturusq <arcturusq@yandex.ru>
+Date:   Sun Jul 14 14:46:56 2024 +0300
+
+    instance of hook class adding to doka3character
+
+[33mcommit 49e85bee5564cf864d7c13478091db512023c825[m
+Author: Arcturusq <arcturusq@yandex.ru>
+Date:   Sun Jul 14 14:06:28 2024 +0300
+
+    Abilitys array adding to doka3Character
+
+[33mcommit 7459dc86efc7d6ec4e9bd70eaf449cf4aa04f8e5[m
+Author: Arcturusq <arcturusq@yandex.ru>
+Date:   Sun Jul 14 11:48:13 2024 +0300
+
+    Colldown addition to AbilityComponent
+
+[33mcommit ea82d9d609f87c138e3b42a5b2bb25accb35373f[m
+Author: Arcturusq <arcturusq@yandex.ru>
+Date:   Fri Jul 12 18:24:09 2024 +0300
+
+    chrash engine after attack fixing
+
+[33mcommit 4c8cb449a2a3453431a84a86f4b5249a80631e2c[m
+Author: Arcturusq <arcturusq@yandex.ru>
+Date:   Fri Jul 12 16:43:31 2024 +0300
+
+    Ability Component and HookAbilityComponent addition
+
+[33mcommit cb754f2d9336bfee2b1a94a725acc323afc686bc[m
+Author: Arcturusq <arcturusq@yandex.ru>
+Date:   Thu Jul 11 20:57:28 2024 +0300
+
+    ability component add
+
+[33mcommit 402c5e9b0bf6a8bdceaf80a09672ae837e57f125[m[33m ([m[1;32mmaster[m[33m)[m
+Author: Arcturusq <arcturusq@yandex.ru>
+Date:   Thu Jul 11 20:15:32 2024 +0300
+
+    doka3

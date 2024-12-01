@@ -42,13 +42,10 @@ AHookProjectile::AHookProjectile()
 	{
 		StaticMeshComponent->SetStaticMesh(MeshAsset.Object);
 
-
 		StaticMeshComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	}
 	OwnerCharacter = nullptr;
-
-
 
 }
 
@@ -58,7 +55,7 @@ void AHookProjectile::BeginPlay()
 	Super::BeginPlay();
 	StartLocation = GetActorLocation();
 
-	GetWorldTimerManager().SetTimer(DistanceTimerHandle, this, &AHookProjectile::OnReturnTimer, DistanceTimerInterval, true);
+	GetWorldTimerManager().SetTimer(DistanceTimerHandle, this, &AHookProjectile::OnDistanceTimer, DistanceTimerInterval, true);
 
 }
 
@@ -70,12 +67,12 @@ void AHookProjectile::OnReturnTimer()
 		float DistanceToOwner = FVector::Dist(GetActorLocation(), OwnerCharacter->GetActorLocation());
 
 		// Если расстояние больше 50, двигаемся к OwnerCharacter
-		if (DistanceToOwner > 50.0f)
+		if (DistanceToOwner > 150.0f)
 		{
 			FVector Direction = (OwnerCharacter->GetActorLocation() - GetActorLocation()).GetSafeNormal();
 			ProjectileMovement->Velocity = Direction * ProjectileMovement->MaxSpeed;
 		}
-
+		else HookEnd();
 		// Иначе, останавливаемся 
 	}
 }
@@ -87,7 +84,7 @@ void AHookProjectile::OnDistanceTimer()
 		float DistanceFromStart = FVector::Dist(GetActorLocation(), StartLocation);
 
 		// Если расстояние превышает определённое значение, вызываем ReturnHook
-		if (DistanceFromStart > 1000000.0f && !ReturnRunned)
+		if (DistanceFromStart > 1500.0f && !ReturnRunned)
 		{
 			ReturnHook();
 		}
@@ -97,6 +94,7 @@ void AHookProjectile::OnDistanceTimer()
 // Called every frame
 void AHookProjectile::Tick(float DeltaTime)
 {
+	if (TargetActor)TargetActor->SetActorLocation(this->GetActorLocation());
 	Super::Tick(DeltaTime);
 }
 void AHookProjectile::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -107,6 +105,8 @@ void AHookProjectile::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor
 		if (OtherActor != OwnerCharacter && OwnerCharacter) {
 			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("OtherActor != OwnerCharacter"));
 			TargetActor = OtherActor;
+			Adoka3Character* Target = Cast<Adoka3Character>(TargetActor);
+			OwnerCharacter->DealDamage(HookAbility->AbilityDamage, Target);
 			PullTarget();
 		}
 		else if (TargetActor && OtherActor == OwnerCharacter && OwnerCharacter) {
@@ -117,38 +117,8 @@ void AHookProjectile::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor
 
 void AHookProjectile::HookEnd()
 {
-
 	GetWorldTimerManager().ClearTimer(ReturnTimerHandle);
 	if (TargetActor) {
-
-		//TargetActor->SetActorEnableCollision(true);
-
-		TArray<UPrimitiveComponent*> Components;
-		TargetActor->GetComponents(Components);
-		for (auto Component : Components)
-		{
-			Component->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-		}
-
-		FVector TargetLocation = TargetActor->GetActorLocation();
-
-		// Привязываем TargetActor к AHookProjectile
-		TargetActor->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
-
-		// Восстанавливаем положение TargetActor
-		TargetActor->SetActorLocation(TargetLocation);
-
-
-		// Получите текущий поворот актора
-		FRotator CurrentRotation = TargetActor->GetActorRotation();
-
-		// Измените угол поворота по горизонтали (например, на 90 градусов)
-		CurrentRotation.Yaw = 90.f;
-
-		// Установите новый поворот актора
-		TargetActor->SetActorRotation(CurrentRotation);
-
-
 		TargetActor = nullptr; // Сбрасываем указатель на объект
 	}
 	Destroy();
@@ -156,9 +126,6 @@ void AHookProjectile::HookEnd()
 
 void AHookProjectile::ReturnHook()
 {
-	/*static bool alreadyCalled = true;
-	if (alreadyCalled) return;
-	alreadyCalled = true;*/
 
 	if (ReturnRunned)return;
 	ReturnRunned = true;
@@ -167,46 +134,5 @@ void AHookProjectile::ReturnHook()
 
 void AHookProjectile::PullTarget()
 {
-	// Отключаем движение TargetActor
-	//if (ACharacter* TargetedCharacter = Cast<ACharacter>(TargetActor))
-	//{
-	//	TargetedCharacter->GetCharacterMovement()->Velocity = FVector::ZeroVector;
-	//	TargetedCharacter->GetCharacterMovement()->SetMovementMode(MOVE_None);
-	//}
-
-
-	if (TargetActor) {
-
-		//TargetActor->SetActorEnableCollision(false);
-		TArray<UPrimitiveComponent*> Components;
-		TargetActor->GetComponents(Components);
-		for (auto Component : Components)
-		{
-			Component->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-		}
-
-		/* IfTargetedActorAttachedToSoething: (but Engine crashing :( )
-		if (TargetActor->GetAttachParentActor()) {
-			FVector DetachTargetLocation = TargetActor->GetActorLocation();
-
-			// Привязываем TargetActor к AHookProjectile
-			TargetActor->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
-
-			// Восстанавливаем положение TargetActor
-			TargetActor->SetActorLocation(DetachTargetLocation);
-		}*/
-
-		FVector TargetLocation = TargetActor->GetActorLocation();
-
-		// Привязываем TargetActor к AHookProjectile
-		TargetActor->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
-
-		// Восстанавливаем положение TargetActor
-		TargetActor->SetActorLocation(TargetLocation);
-	}
-
-
-
-	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("PullTarget"));
 	ReturnHook();
 }

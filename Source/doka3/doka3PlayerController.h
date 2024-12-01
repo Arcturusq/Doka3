@@ -37,6 +37,15 @@ protected:
 
 	Adoka3Character* MyCharacter;
 
+	void MoveScreenByMouse();
+
+	float CameraMoveSpeedX = 0.f;
+	float CameraMoveSpeedY = 0.f;
+
+	float MouseSensitivity = 3.f;
+
+
+
 	void Use1Spell1();
 	void Use2Spell1();
 	void Use3Spell1();

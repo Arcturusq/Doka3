@@ -14,6 +14,7 @@ class UAbilityComponent;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAttackEvent);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAttackEndEvent);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnHealthChanged);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnEnemyDead);
 
 UCLASS(Blueprintable)
 class Adoka3Character : public ACharacter
@@ -25,6 +26,9 @@ public:
 
 	// Called every frame.
 	virtual void Tick(float DeltaSeconds) override;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Team")
+	FName Team = FName(TEXT("Neutral"));
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
 	float fRotationSpeed = 6.5f;
@@ -49,6 +53,10 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
 	float fAttackSpeedRate = 2;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
+	float fCharacterMaxSpeed = 600;
+
 
 	UFUNCTION(BlueprintCallable, Category = "Combat")
 	void AttackTarget(ACharacter* Target);
@@ -68,7 +76,7 @@ public:
 	void StopAttack();
 
 	UFUNCTION(BlueprintCallable, Category = "Attack")
-	void DealDamage(Adoka3Character* DamageTarget);
+	void DealDamage(float Damage, Adoka3Character* DamageTarget);
 
 	// Функция для применения урона
 	UFUNCTION(BlueprintCallable, Category = "Health")
@@ -84,6 +92,9 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "Attack")
 	FOnAttackEndEvent OnAttackEnd;
 
+	UPROPERTY(BlueprintAssignable, Category = "Attack")
+	FOnEnemyDead OnEnemyDead;
+
 	UPROPERTY(BlueprintAssignable, Category = "Health")
 	FOnHealthChanged OnHealthChanged;
 
@@ -98,13 +109,14 @@ public:
 
 	bool bIsAttacking = false;
 
-	float fCharacterMaxSpeed = 600;
 
 	// Ссылка на анимационный монтаж
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation")
 	UAnimMontage* AttackAnimMontage;
 
 	ACharacter* TargetedCharacter;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attack")
 	ACharacter* AttackEnemy;
 
 	UStateWidget* CharacterWidget;

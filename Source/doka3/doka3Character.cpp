@@ -85,7 +85,8 @@ Adoka3Character::Adoka3Character()
 	}
 
 	Abilities.SetNum(6);
-	for (int i = 0; i <= 5; i++) {
+	for (int i = 0; i <= 5; i++)
+	{
 		Abilities[i] = nullptr;
 	}
 	UHookAbilityComponent* HookAbility = CreateDefaultSubobject<UHookAbilityComponent>(TEXT("HookAbility"));
@@ -96,6 +97,8 @@ void Adoka3Character::BeginPlay()
 {
 	Super::BeginPlay();
 
+	this->GetCharacterMovement()->MaxWalkSpeed = fCharacterMaxSpeed;
+
 	CharacterWidget = Cast<UStateWidget>(CharacterWidgetComponent->GetUserWidgetObject());
 	CharacterWidget->SetOwner(this);
 
@@ -104,6 +107,7 @@ void Adoka3Character::BeginPlay()
 void Adoka3Character::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
+	//Это просто ПИЗДЕЦ. Такого быть не должно. перенести в controller сделать обработку отмены атаки
 	if (CursorToWorld != nullptr)
 	{
 		if (APlayerController* PC = Cast<APlayerController>(GetController()))
@@ -123,20 +127,23 @@ void Adoka3Character::Tick(float DeltaSeconds)
 				//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("hit"));
 				TargetedCharacter = HitCharacter;
 			}
-			else {
+			else
+			{
 				TargetedCharacter = nullptr;
 			}
 
 		}
 	}
-	if (AttackEnemy) {
+	if (AttackEnemy)
+	{
 		AttackTarget(AttackEnemy);
 	}
 }
 
 void Adoka3Character::AttackTarget(ACharacter* Target)
 {
-	if (Target) {
+	if (Target)
+	{
 		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("attack"));
 		float DistanceSquared = FVector::DistSquared(GetActorLocation(), Target->GetActorLocation());
 		if (DistanceSquared <= FMath::Square(fAttackRange))
@@ -147,10 +154,19 @@ void Adoka3Character::AttackTarget(ACharacter* Target)
 			FVector DirectionToTarget = (Target->GetActorLocation() - GetActorLocation()).GetSafeNormal();
 			// Создаем новый ротатор, который смотрит в направлении цели
 			FRotator TargetRotation = DirectionToTarget.Rotation();
+
 			// Получаем текущий ротатор персонажа
 			FRotator CurrentRotation = GetActorRotation();
+
+			// Сохраняем текущее значение вращения по оси Z
+			float CurrentPitch = CurrentRotation.Pitch;
+			float CurrentRoll = CurrentRotation.Roll;
+
+			// Создаем новый ротатор с текущими значениями по оси X и Y, но с новым значением по оси Z
+			FRotator NewTargetRotation = FRotator(CurrentPitch, TargetRotation.Yaw, CurrentRoll);
+
 			// Интерполируем к новому ротатору
-			FRotator NewRotation = FMath::RInterpTo(CurrentRotation, TargetRotation, GetWorld()->GetDeltaSeconds(), fRotationSpeed);
+			FRotator NewRotation = FMath::RInterpTo(CurrentRotation, NewTargetRotation, GetWorld()->GetDeltaSeconds(), fRotationSpeed);
 
 			// Применяем новый ротатор к персонажу
 			SetActorRotation(NewRotation);
@@ -164,11 +180,13 @@ void Adoka3Character::AttackTarget(ACharacter* Target)
 		}
 		else // Если цель слишком далеко, подходим к ней
 		{
+			GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Red, TEXT("PPC"));
 			// Получаем контроллер и вызываем функцию движения к точке
-			APlayerController* PC = Cast<APlayerController>(GetController());
-			if (PC)
+			AController* MyController = GetController();
+			if (MyController)
 			{
-				UAIBlueprintHelperLibrary::SimpleMoveToActor(PC, Target);
+				GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Blue, TEXT("GAGAGA"));
+				UAIBlueprintHelperLibrary::SimpleMoveToActor(MyController, Target);
 			}
 		}
 		/*if (Target && (FVector::Dist(GetActorLocation(), Target->GetActorLocation()) <= AttackRange)) {
@@ -189,7 +207,8 @@ void Adoka3Character::HitTarget(ACharacter* Target)
 void Adoka3Character::MeleeAttack()
 {
 	OnAttack.Broadcast();
-	if (bIsAttacking == false) {
+	if (bIsAttacking == false)
+	{
 		bIsAttacking = true;
 		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, TEXT("MaxWalkSpeed = 0"));
 		this->GetCharacterMovement()->StopMovementImmediately();
@@ -206,16 +225,17 @@ void Adoka3Character::OnAnimAttackEnd(bool AttackSuccess = true)
 	bIsAttacking = false;
 	this->GetCharacterMovement()->MaxWalkSpeed = fCharacterMaxSpeed;
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("OnAnimAttackEnd"));
-	if (AttackSuccess) {
+	if (AttackSuccess)
+	{
 		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("AttackSuccess"));
-		DealDamage(DamageTarget);
+		DealDamage(fDamage,DamageTarget);
 	}
 
 }
 
 void Adoka3Character::StopAttack()
 {
-
+	OnEnemyDead.Broadcast();
 	StopAnimMontage(AttackAnimMontage);
 	AttackEnemy = nullptr;
 	OnAnimAttackEnd(false);
@@ -265,9 +285,9 @@ void Adoka3Character::ApplyDamage(float Damage, const class UDamageType* DamageT
 	}
 }
 
-void Adoka3Character::DealDamage(Adoka3Character* DamageTarget)
+void Adoka3Character::DealDamage(float Damage,Adoka3Character* DamageTarget)
 {
-	DamageTarget->ApplyDamage(fDamage, nullptr, Cast<APlayerController>(GetController()), this);
+	DamageTarget->ApplyDamage(Damage, nullptr, Cast<APlayerController>(GetController()), this);
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Black, TEXT("DealDamage"));
 }
 

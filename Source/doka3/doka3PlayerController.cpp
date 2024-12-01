@@ -5,6 +5,7 @@
 #include "Runtime/Engine/Classes/Components/DecalComponent.h"
 #include "doka3Character.h"
 #include "Engine/World.h"
+#include "GameFramework/SpringArmComponent.h"
 
 Adoka3PlayerController::Adoka3PlayerController()
 {
@@ -15,6 +16,10 @@ Adoka3PlayerController::Adoka3PlayerController()
 void Adoka3PlayerController::PlayerTick(float DeltaTime)
 {
 	Super::PlayerTick(DeltaTime);
+
+	MoveScreenByMouse();
+
+
 
 	// keep updating the destination every tick while desired
 	if (bMoveToMouseCursor)
@@ -27,10 +32,12 @@ void Adoka3PlayerController::BeginPlay()
 	Super::BeginPlay();
 
 	MyCharacter = Cast<Adoka3Character>(GetPawn());
-	//if (MyCharacter)
-	//{
-	//	// Успешное приведение типа
-	//}
+
+
+	if (MyCharacter)
+	{
+		MyCharacter->GetCameraBoom()->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+	}
 	//else
 	//{
 	//	// Обработка ошибки приведения типа
@@ -81,12 +88,16 @@ void Adoka3PlayerController::SetNewMoveDestination(const FVector DestLocation)
 
 		//}
 		// Получаем персонажа и вызываем метод атаки
-		if (MyCharacter) {
-			if (MyCharacter->TargetedCharacter && MyCharacter->TargetedCharacter != MyCharacter) {
+		if (MyCharacter)
+		{
+			if (MyCharacter->TargetedCharacter && MyCharacter->TargetedCharacter != MyCharacter)
+			{
 				MyCharacter->AttackEnemy = MyCharacter->TargetedCharacter;
 			}
-			else {
-				if (MyCharacter->bIsAttacking) {
+			else
+			{
+				if (MyCharacter->bIsAttacking)
+				{
 					MyCharacter->StopAttack();
 				}
 				UAIBlueprintHelperLibrary::SimpleMoveToLocation(this, DestLocation);
@@ -107,45 +118,69 @@ void Adoka3PlayerController::OnSetDestinationReleased()
 	bMoveToMouseCursor = false;
 }
 
+void Adoka3PlayerController::MoveScreenByMouse()
+{
+	float mouseX, mouseY;
+	int32 ViewportSizeX, ViewportSizeY;
+	GetMousePosition(mouseX, mouseY);
+	GetViewportSize(ViewportSizeX, ViewportSizeY);
+	float Xrat = mouseX / ViewportSizeX;
+	float Yrat = mouseY / ViewportSizeY;
+
+	CameraMoveSpeedX = (Xrat >= 0.9) ? 5.f : (Xrat <= 0.1 ? -5.f : 0.f);//быстрая запись того что снизу, но для X
+	if (Yrat >= 0.9)CameraMoveSpeedY = -5.f;
+	else if (Yrat <= 0.1)CameraMoveSpeedY = 5.f;
+	else CameraMoveSpeedY = 0.f;
+
+	FVector DeltaLocation(CameraMoveSpeedY * MouseSensitivity, CameraMoveSpeedX * MouseSensitivity, 0.f);
+	MyCharacter->GetCameraBoom()->AddWorldOffset(DeltaLocation);
+}
+
 void Adoka3PlayerController::Use1Spell1()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("q"));
-	if (MyCharacter) {
+	if (MyCharacter)
+	{
 		MyCharacter->ActivateAbility(0);
 	}
 }
 
 void Adoka3PlayerController::Use2Spell1()
 {
-	if (MyCharacter) {
+	if (MyCharacter)
+	{
 		MyCharacter->ActivateAbility(1);
 	}
 }
 
 void Adoka3PlayerController::Use3Spell1()
 {
-	if (MyCharacter) {
+	if (MyCharacter)
+	{
 		MyCharacter->ActivateAbility(2);
 	}
 }
 
 void Adoka3PlayerController::Use4Spell1()
 {
-	if (MyCharacter) {
+	if (MyCharacter)
+	{
 		MyCharacter->ActivateAbility(3);
 	}
 }
 
 void Adoka3PlayerController::Use5Spell1()
 {
-	if (MyCharacter) {
+	if (MyCharacter)
+	{
 		MyCharacter->ActivateAbility(4);
 	}
 }
 
 void Adoka3PlayerController::Use6Spell1()
 {
-	if (MyCharacter) {
+	if (MyCharacter)
+	{
 		MyCharacter->ActivateAbility(5);
 	}
 }
