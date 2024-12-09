@@ -62,7 +62,6 @@ void Adoka3PlayerController::SetupInputComponent()
 
 void Adoka3PlayerController::MoveToMouseCursor()
 {
-
 	// Trace to see what is under the mouse cursor
 	FHitResult Hit;
 	GetHitResultUnderCursor(ECC_Visibility, false, Hit);
@@ -72,7 +71,6 @@ void Adoka3PlayerController::MoveToMouseCursor()
 		// We hit something, move there
 		SetNewMoveDestination(Hit.ImpactPoint);
 	}
-
 }
 
 void Adoka3PlayerController::SetNewMoveDestination(const FVector DestLocation)
@@ -80,13 +78,6 @@ void Adoka3PlayerController::SetNewMoveDestination(const FVector DestLocation)
 	APawn* const MyPawn = GetPawn();
 	if (MyPawn)
 	{
-		/*float const Distance = FVector::Dist(DestLocation, MyPawn->GetActorLocation());
-
-		// We need to issue move command only if far enough in order for walk animation to play correctly
-		if ((Distance > 120.0f))
-		{*/
-
-		//}
 		// Получаем персонажа и вызываем метод атаки
 		if (MyCharacter)
 		{
@@ -96,10 +87,8 @@ void Adoka3PlayerController::SetNewMoveDestination(const FVector DestLocation)
 			}
 			else
 			{
-				if (MyCharacter->bIsAttacking)
-				{
-					MyCharacter->StopAttack();
-				}
+
+				MyCharacter->StopAttack();
 				UAIBlueprintHelperLibrary::SimpleMoveToLocation(this, DestLocation);
 			}
 		}

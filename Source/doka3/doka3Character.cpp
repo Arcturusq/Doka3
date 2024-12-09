@@ -144,6 +144,7 @@ void Adoka3Character::AttackTarget(ACharacter* Target)
 {
 	if (Target)
 	{
+
 		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("attack"));
 		float DistanceSquared = FVector::DistSquared(GetActorLocation(), Target->GetActorLocation());
 		if (DistanceSquared <= FMath::Square(fAttackRange))
@@ -171,8 +172,16 @@ void Adoka3Character::AttackTarget(ACharacter* Target)
 			// Применяем новый ротатор к персонажу
 			SetActorRotation(NewRotation);
 
+
+			DirectionToTarget.Z = 0; // Убираем компонент Z
+			DirectionToTarget.Normalize();
+			// Получаем вектор вперед актора и устанавливаем его Z в 0
+			FVector ForwardVector = GetActorForwardVector();
+			ForwardVector.Z = 0; // Убираем компонент Z
+			ForwardVector.Normalize(); // Нормализуем вектор
+
 			// Проверяем, достаточно ли персонаж повернулся для атаки
-			if (FVector::DotProduct(DirectionToTarget, GetActorForwardVector()) > 0.99f) // 0.99f - это косинус угла близкого к 0 градусов
+			if (FVector::DotProduct(DirectionToTarget, ForwardVector) > 0.99f) // 0.99f - это косинус угла близкого к 0 градусов
 			{
 				MeleeAttack();
 			}
@@ -228,7 +237,7 @@ void Adoka3Character::OnAnimAttackEnd(bool AttackSuccess = true)
 	if (AttackSuccess)
 	{
 		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("AttackSuccess"));
-		DealDamage(fDamage,DamageTarget);
+		DealDamage(fDamage, DamageTarget);
 	}
 
 }
@@ -285,7 +294,7 @@ void Adoka3Character::ApplyDamage(float Damage, const class UDamageType* DamageT
 	}
 }
 
-void Adoka3Character::DealDamage(float Damage,Adoka3Character* DamageTarget)
+void Adoka3Character::DealDamage(float Damage, Adoka3Character* DamageTarget)
 {
 	DamageTarget->ApplyDamage(Damage, nullptr, Cast<APlayerController>(GetController()), this);
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Black, TEXT("DealDamage"));
